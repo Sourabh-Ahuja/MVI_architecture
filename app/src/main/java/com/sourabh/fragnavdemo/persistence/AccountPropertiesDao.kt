@@ -21,4 +21,7 @@ interface AccountPropertiesDao {
 
     @Query("SELECT * FROM account_properties where email = :email")
     fun searchByPk(email : String) :  AccountProperties?
+
+    @Query("SELECT * FROM account_properties WHERE email = :email")
+    suspend fun searchByEmail(email: String): AccountProperties?
 }

@@ -16,6 +16,7 @@ import com.sourabh.fragnavdemo.persistence.AppDatabase.Companion.DATABASE_NAME
 import com.sourabh.fragnavdemo.persistence.AuthTokenDao
 import com.sourabh.fragnavdemo.util.Constants
 import com.sourabh.fragnavdemo.util.LiveDataCallAdapterFactory
+import com.sourabh.fragnavdemo.util.PreferenceKeys
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -25,17 +26,17 @@ import javax.inject.Singleton
 @Module
 class AppModule{
 
-//    @Singleton
-//    @Provides
-//    fun provideSharedPreferences(application: Application): SharedPreferences {
-//        return application.getSharedPreferences(PreferenceKeys.APP_PREFERENCES, Context.MODE_PRIVATE)
-//    }
-//
-//    @Singleton
-//    @Provides
-//    fun provideSharedPrefsEditor(sharedPreferences: SharedPreferences): SharedPreferences.Editor {
-//        return sharedPreferences.edit()
-//    }
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(application: Application): SharedPreferences {
+        return application.getSharedPreferences(PreferenceKeys.APP_PREFERENCES, Context.MODE_PRIVATE)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSharedPrefsEditor(sharedPreferences: SharedPreferences): SharedPreferences.Editor {
+        return sharedPreferences.edit()
+    }
 
     @Singleton
     @Provides

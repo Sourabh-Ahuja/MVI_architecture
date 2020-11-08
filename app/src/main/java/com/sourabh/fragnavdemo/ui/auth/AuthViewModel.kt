@@ -40,7 +40,7 @@ constructor(
                     stateEvent.username, stateEvent.password, stateEvent.confirm_password)
             }
             is CheckPreviousAuthEvent -> {
-                return AbsentLiveData.create()
+                return authRepository.checkPreviousAuthUser()
             }
             is None ->{
                 return AbsentLiveData.create()
@@ -73,6 +73,15 @@ constructor(
         }
         update.authToken = authToken
         setViewState(update)
+    }
+
+    fun cancelActiveJobs() {
+        authRepository.cancelActiveJob()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        cancelActiveJobs()
     }
 
 }

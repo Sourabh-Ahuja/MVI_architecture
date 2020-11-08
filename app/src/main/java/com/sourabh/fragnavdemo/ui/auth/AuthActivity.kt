@@ -4,19 +4,29 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
 import com.sourabh.fragnavdemo.R
 import com.sourabh.fragnavdemo.ui.BaseActivity
 import com.sourabh.fragnavdemo.ui.ResponseType
 import com.sourabh.fragnavdemo.ui.ResponseType.*
+import com.sourabh.fragnavdemo.ui.auth.state.AuthStateEvent
 import com.sourabh.fragnavdemo.ui.main.MainActivity
 import com.sourabh.fragnavdemo.viewModels.ViewModelProviderFactory
+import kotlinx.android.synthetic.main.activity_main.progress_bar
 import javax.inject.Inject
 
-class AuthActivity : BaseActivity() {
+class AuthActivity : BaseActivity(),
+   NavController.OnDestinationChangedListener
+{
 
     private val TAG = "AuthActivity"
+
+
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
 
@@ -27,12 +37,15 @@ class AuthActivity : BaseActivity() {
         setContentView(R.layout.activity_auth)
         viewModel = ViewModelProvider(this, providerFactory).get(AuthViewModel::class.java)
 
+        findNavController(R.id.auth_nav_host_fragment).addOnDestinationChangedListener(this)
         subscribeObserver()
+        checkPrevisouAuthUser()
     }
 
     fun subscribeObserver() {
 
         viewModel.dataState.observe(this, Observer {dateState ->
+            onDataStateChange(dateState)
              dateState.data?.let {date ->
                  date.data?.let {event ->
                      event.getContentIfNotHandled()?.let {
@@ -42,24 +55,6 @@ class AuthActivity : BaseActivity() {
                          }
                      }
                  }
-
-                date.response?.let { event ->
-                    event.getContentIfNotHandled()?.let {response ->
-                        when(response.responseType){
-                            is Toast -> {
-
-                            }
-                            is Dialog -> {
-
-                            }
-
-                            is None -> {
-
-                            }
-                        }
-                    }
-                }
-
              }
         })
 
@@ -80,9 +75,31 @@ class AuthActivity : BaseActivity() {
         })
     }
 
+    fun checkPrevisouAuthUser() {
+        viewModel.setStateEvent(
+            AuthStateEvent.CheckPreviousAuthEvent()
+        )
+    }
+
     private fun navMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent )
         finish()
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        viewModel.cancelActiveJobs()
+    }
+
+    override fun displayProgressBar(boolean: Boolean) {
+        if(boolean){
+            progress_bar.visibility = View.VISIBLE
+        } else {
+            progress_bar.visibility = View.INVISIBLE
+        }
     }
 }

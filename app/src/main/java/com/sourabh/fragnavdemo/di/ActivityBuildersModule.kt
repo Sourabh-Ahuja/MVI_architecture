@@ -4,6 +4,10 @@ import com.sourabh.fragnavdemo.di.auth.AuthFragmentBuildersModule
 import com.sourabh.fragnavdemo.di.auth.AuthModule
 import com.sourabh.fragnavdemo.di.auth.AuthScope
 import com.sourabh.fragnavdemo.di.auth.AuthViewModelModule
+import com.sourabh.fragnavdemo.di.main.MainFragmentBuildersModule
+import com.sourabh.fragnavdemo.di.main.MainModule
+import com.sourabh.fragnavdemo.di.main.MainScope
+import com.sourabh.fragnavdemo.di.main.MainViewModelModule
 import com.sourabh.fragnavdemo.ui.auth.AuthActivity
 import com.sourabh.fragnavdemo.ui.main.MainActivity
 import dagger.Module
@@ -18,7 +22,9 @@ abstract class ActivityBuildersModule {
     )
     abstract fun contributeAuthActivity(): AuthActivity
 
-    @ContributesAndroidInjector
+    @MainScope
+    @ContributesAndroidInjector(
+        modules = [MainModule::class, MainFragmentBuildersModule::class, MainViewModelModule::class]
+    )
     abstract fun contributeMainActivity(): MainActivity
-
 }
