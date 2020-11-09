@@ -23,40 +23,40 @@ abstract class BaseBlogFragment : DaggerFragment(){
 //    @Inject
 //    lateinit var requestManager: RequestManager
 //
-//    @Inject
-//    lateinit var providerFactory: ViewModelProviderFactory
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
 
 //    lateinit var uiCommunicationListener: UICommunicationListener
 
     lateinit var stateChangeListener: DataStateChangeListener
 
-//    lateinit var viewModel: BlogViewModel
+    lateinit var viewModel: BlogViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        viewModel = activity?.run {
-//            ViewModelProvider(this, providerFactory).get(BlogViewModel::class.java)
-//        }?: throw Exception("Invalid Activity")
+        setupActionBarWithNavController(R.id.blogFragment, activity as AppCompatActivity)
+        viewModel = activity?.run {
+            ViewModelProvider(this, providerFactory).get(BlogViewModel::class.java)
+        }?: throw Exception("Invalid Activity")
 
         cancelActiveJobs()
     }
 
     fun cancelActiveJobs(){
-     //   viewModel.cancelActiveJobs()
+        viewModel.cancelActiveJobs()
     }
 
     /*
           @fragmentId is id of fragment from graph to be EXCLUDED from action back bar nav
         */
-//    fun setupActionBarWithNavController(fragmentId: Int, activity: AppCompatActivity){
-//        val appBarConfiguration = AppBarConfiguration(setOf(fragmentId))
-//        NavigationUI.setupActionBarWithNavController(
-//            activity,
-//            findNavController(),
-//            appBarConfiguration
-//        )
-//    }
+    fun setupActionBarWithNavController(fragmentId: Int, activity: AppCompatActivity){
+        val appBarConfiguration = AppBarConfiguration(setOf(fragmentId))
+        NavigationUI.setupActionBarWithNavController(
+            activity,
+            findNavController(),
+            appBarConfiguration
+        )
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

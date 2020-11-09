@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
 import com.sourabh.fragnavdemo.R
+import com.sourabh.fragnavdemo.models.AccountProperties
+import com.sourabh.fragnavdemo.ui.main.account.state.AccountStateEvent
+import kotlinx.android.synthetic.main.fragment_update_account.*
 
 class UpdateAccountFragment : BaseAccountFragment(){
 
@@ -20,57 +23,57 @@ class UpdateAccountFragment : BaseAccountFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-       // subscribeObservers()
+        subscribeObservers()
     }
 
-//    private fun subscribeObservers(){
-//        viewModel.dataState.observe(viewLifecycleOwner, Observer{ dataState ->
-//            stateChangeListener.onDataStateChange(dataState)
-//            Log.d(TAG, "UpdateAccountFragment, DataState: ${dataState}")
-//        })
+    private fun subscribeObservers(){
+        viewModel.dataState.observe(viewLifecycleOwner, Observer{ dataState ->
+            stateChangeListener.onDataStateChange(dataState)
+            Log.d(TAG, "UpdateAccountFragment, DataState: ${dataState}")
+        })
+
+        viewModel.viewState.observe(viewLifecycleOwner, Observer{ viewState ->
+            if(viewState != null){
+                viewState.accountProperties?.let{
+                    Log.d(TAG, "UpdateAccountFragment, ViewState: ${it}")
+                    setAccountDataFields(it)
+                }
+            }
+        })
+    }
+
+    private fun setAccountDataFields(accountProperties: AccountProperties){
+        if(input_email.text.isNullOrBlank()){
+            input_email.setText(accountProperties.email)
+        }
+        if(input_username.text.isNullOrBlank()){
+            input_username.setText(accountProperties.username)
+        }
+    }
+
+    private fun saveChanges(){
+        viewModel.setStateEvent(
+            AccountStateEvent.UpdateAccountPropertiesEvent(
+                input_email.text.toString(),
+                input_username.text.toString()
+            )
+        )
+        stateChangeListener.hideSoftKeyBoard()
+    }
 //
-//        viewModel.viewState.observe(viewLifecycleOwner, Observer{ viewState ->
-//            if(viewState != null){
-//                viewState.accountProperties?.let{
-//                    Log.d(TAG, "UpdateAccountFragment, ViewState: ${it}")
-//                    setAccountDataFields(it)
-//                }
-//            }
-//        })
-//    }
-//
-//    private fun setAccountDataFields(accountProperties: AccountProperties){
-//        if(input_email.text.isNullOrBlank()){
-//            input_email.setText(accountProperties.email)
-//        }
-//        if(input_username.text.isNullOrBlank()){
-//            input_username.setText(accountProperties.username)
-//        }
-//    }
-//
-//    private fun saveChanges(){
-//        viewModel.setStateEvent(
-//            AccountStateEvent.UpdateAccountPropertiesEvent(
-//                input_email.text.toString(),
-//                input_username.text.toString()
-//            )
-//        )
-//        stateChangeListener.hideSoftKeyboard()
-//    }
-//
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.update_menu, menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.save -> {
-//                saveChanges()
-//                return true
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.update_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.save -> {
+                saveChanges()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
 
 

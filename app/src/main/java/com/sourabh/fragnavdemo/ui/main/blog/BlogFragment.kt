@@ -78,6 +78,23 @@ class BlogFragment : BaseBlogFragment()
 //        })
 //    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search_menu, menu)
+      //  initSearchView(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.action_filter_settings -> {
+             //   showFilterDialog()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
 
 

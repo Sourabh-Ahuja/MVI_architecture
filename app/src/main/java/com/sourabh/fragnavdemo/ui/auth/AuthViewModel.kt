@@ -43,7 +43,15 @@ constructor(
                 return authRepository.checkPreviousAuthUser()
             }
             is None ->{
-                return AbsentLiveData.create()
+                return object : LiveData<DataState<AuthViewState>>(){
+                    override fun onActive() {
+                        super.onActive()
+                        value = DataState.data(
+                                data = null,
+                                response = null
+                        )
+                    }
+                }
             }
         }
     }
@@ -76,7 +84,12 @@ constructor(
     }
 
     fun cancelActiveJobs() {
-        authRepository.cancelActiveJob()
+        authRepository.cancelActiveJobs()
+        handlePendingData()
+    }
+
+    fun handlePendingData(){
+        setStateEvent(None())
     }
 
     override fun onCleared() {

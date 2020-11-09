@@ -32,7 +32,7 @@ abstract class BaseCreateBlogFragment : DaggerFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-  //      setupActionBarWithNavController(R.id.createBlogFragment, activity as AppCompatActivity)
+        setupActionBarWithNavController(R.id.createBlogFragment, activity as AppCompatActivity)
 
 //        viewModel = activity?.run {
 //            ViewModelProvider(this, providerFactory).get(CreateBlogViewModel::class.java)

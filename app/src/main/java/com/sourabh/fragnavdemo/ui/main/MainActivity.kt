@@ -16,10 +16,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sourabh.fragnavdemo.R
 import com.sourabh.fragnavdemo.ui.BaseActivity
 import com.sourabh.fragnavdemo.ui.auth.AuthActivity
+import com.sourabh.fragnavdemo.ui.main.account.BaseAccountFragment
 import com.sourabh.fragnavdemo.ui.main.account.ChangePasswordFragment
 import com.sourabh.fragnavdemo.ui.main.account.UpdateAccountFragment
+import com.sourabh.fragnavdemo.ui.main.blog.BaseBlogFragment
 import com.sourabh.fragnavdemo.ui.main.blog.UpdateBlogFragment
 import com.sourabh.fragnavdemo.ui.main.blog.ViewBlogFragment
+import com.sourabh.fragnavdemo.ui.main.create_blog.BaseCreateBlogFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity()
@@ -94,7 +97,29 @@ class MainActivity : BaseActivity()
     }
 
     override fun onGraphChange() {
+        expandAppBar()
+        cancelActiveJobs()
+    }
 
+    private fun cancelActiveJobs() {
+        val fragments = bottomNavController.fragmentManager
+                .findFragmentById(bottomNavController.containerId)
+                ?.childFragmentManager
+                ?.fragments
+        if(fragments != null){
+            for(fragment in fragments){
+                if(fragment is BaseAccountFragment){
+                    fragment.cancelActiveJobs()
+                }
+                if(fragment is BaseBlogFragment){
+                    fragment.cancelActiveJobs()
+                }
+                if(fragment is BaseCreateBlogFragment){
+                    fragment.cancelActiveJobs()
+                }
+            }
+        }
+        displayProgressBar(false)
     }
 
     override fun onReselectNavItem(
@@ -132,6 +157,10 @@ class MainActivity : BaseActivity()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun expandAppBar() {
+        findViewById<AppBarLayout>(R.id.app_bar).setExpanded(true)
     }
 
     private fun setupActionBar(){

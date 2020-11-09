@@ -174,19 +174,19 @@ class UpdateBlogFragment : BaseBlogFragment(){
 //        stateChangeListener.hideSoftKeyboard()
 //    }
 //
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.update_menu, menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.save -> {
-//                saveChanges()
-//                return true
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.update_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.save -> {
+                //saveChanges()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 //
 //    override fun onPause() {
 //        super.onPause()

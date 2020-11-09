@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import com.google.android.material.appbar.AppBarLayout
 import com.sourabh.fragnavdemo.R
 import com.sourabh.fragnavdemo.ui.BaseActivity
 import com.sourabh.fragnavdemo.ui.ResponseType
@@ -39,6 +40,14 @@ class AuthActivity : BaseActivity(),
 
         findNavController(R.id.auth_nav_host_fragment).addOnDestinationChangedListener(this)
         subscribeObserver()
+    }
+
+    override fun expandAppBar() {
+        findViewById<AppBarLayout>(R.id.app_bar).setExpanded(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
         checkPrevisouAuthUser()
     }
 

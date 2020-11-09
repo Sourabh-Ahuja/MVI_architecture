@@ -107,23 +107,23 @@ class ViewBlogFragment : BaseBlogFragment(){
 //        blog_body.setText(blogPost.body)
 //    }
 //
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        if(viewModel.isAuthorOfBlogPost()){
-//            inflater.inflate(R.menu.edit_view_menu, menu)
-//        }
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        //if(viewModel.isAuthorOfBlogPost()){
+            inflater.inflate(R.menu.edit_view_menu, menu)
+        //}
+    }
 //
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if(viewModel.isAuthorOfBlogPost()){
-//            when(item.itemId){
-//                R.id.edit -> {
-//                    navUpdateBlogFragment()
-//                    return true
-//                }
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //if(viewModel.isAuthorOfBlogPost()){
+            when(item.itemId){
+                R.id.edit -> {
+                   // navUpdateBlogFragment()
+                    return true
+                }
+            }
+        //}
+        return super.onOptionsItemSelected(item)
+    }
 //
 //    private fun navUpdateBlogFragment(){
 //        try{
