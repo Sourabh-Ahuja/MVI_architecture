@@ -6,7 +6,14 @@ import android.view.*
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.codingwithmitch.openapi.ui.main.blog.viewmodel.isAuthorOfBlogPost
 import com.sourabh.fragnavdemo.R
+import com.sourabh.fragnavdemo.models.BlogPost
+import com.sourabh.fragnavdemo.ui.main.blog.state.BlogStateEvent
+import com.sourabh.fragnavdemo.ui.main.blog.viewmodel.setIsAuthorOfBlogPost
+import com.sourabh.fragnavdemo.util.DateUtils
+import com.sourabh.fragnavdemo.util.SuccessHandling.Companion.SUCCESS_BLOG_DELETED
+import kotlinx.android.synthetic.main.fragment_view_blog.*
 
 class ViewBlogFragment : BaseBlogFragment(){
 
@@ -22,9 +29,9 @@ class ViewBlogFragment : BaseBlogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-//        subscribeObservers()
-//        checkIsAuthorOfBlogPost()
-//        stateChangeListener.expandAppBar()
+        subscribeObservers()
+        checkIsAuthorOfBlogPost()
+        stateChangeListener.expandAppBar()
 //
 //        delete_button.setOnClickListener {
 //            confirmDeleteRequest()
@@ -57,75 +64,75 @@ class ViewBlogFragment : BaseBlogFragment(){
 //        )
 //    }
 //
-//    fun checkIsAuthorOfBlogPost(){
-//        viewModel.setIsAuthorOfBlogPost(false) // reset
-//        viewModel.setStateEvent(CheckAuthorOfBlogPost())
-//    }
+    fun checkIsAuthorOfBlogPost(){
+        viewModel.setIsAuthorOfBlogPost(false) // reset
+        viewModel.setStateEvent(BlogStateEvent.CheckAuthorOfBlogPost())
+    }
 //
-//    fun subscribeObservers(){
-//        viewModel.dataState.observe(viewLifecycleOwner, Observer{ dataState ->
-//            stateChangeListener.onDataStateChange(dataState)
-//
-//            dataState.data?.let { data ->
-//                data.data?.getContentIfNotHandled()?.let { viewState ->
-//                    viewModel.setIsAuthorOfBlogPost(
-//                        viewState.viewBlogFields.isAuthorOfBlogPost
-//                    )
-//                }
+    fun subscribeObservers(){
+        viewModel.dataState.observe(viewLifecycleOwner, Observer{ dataState ->
+            stateChangeListener.onDataStateChange(dataState)
+
+            dataState.data?.let { data ->
+                data.data?.getContentIfNotHandled()?.let { viewState ->
+                    viewModel.setIsAuthorOfBlogPost(
+                        viewState.viewBlogFields.isAuthorOfBlogPost
+                    )
+                }
 //                data.response?.peekContent()?.let{ response ->
 //                    if(response.message.equals(SUCCESS_BLOG_DELETED)){
 //                        viewModel.removeDeletedBlogPost()
 //                        findNavController().popBackStack()
 //                    }
 //                }
-//            }
-//        })
-//
-//        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
-//            viewState.viewBlogFields.blogPost?.let{ blogPost ->
-//                setBlogProperties(blogPost)
-//            }
-//
-//            if(viewState.viewBlogFields.isAuthorOfBlogPost){
-//                adaptViewToAuthorMode()
-//            }
-//        })
-//    }
-//
-//    fun adaptViewToAuthorMode(){
-//        activity?.invalidateOptionsMenu()
-//        delete_button.visibility = View.VISIBLE
-//    }
-//
-//    fun setBlogProperties(blogPost: BlogPost){
-//        requestManager
-//            .load(blogPost.image)
-//            .into(blog_image)
-//        blog_title.setText(blogPost.title)
-//        blog_author.setText(blogPost.username)
-//        blog_update_date.setText(DateUtils.convertLongToStringDate(blogPost.date_updated))
-//        blog_body.setText(blogPost.body)
-//    }
+            }
+        })
+
+        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+            viewState.viewBlogFields.blogPost?.let{ blogPost ->
+                setBlogProperties(blogPost)
+            }
+
+            if(viewState.viewBlogFields.isAuthorOfBlogPost){
+                adaptViewToAuthorMode()
+            }
+        })
+    }
+
+    fun adaptViewToAuthorMode(){
+        activity?.invalidateOptionsMenu()
+        delete_button.visibility = View.VISIBLE
+    }
+
+    fun setBlogProperties(blogPost: BlogPost){
+        requestManager
+            .load(blogPost.image)
+            .into(blog_image)
+        blog_title.setText(blogPost.title)
+        blog_author.setText(blogPost.username)
+        blog_update_date.setText(DateUtils.convertLongToStringDate(blogPost.date_updated))
+        blog_body.setText(blogPost.body)
+    }
 //
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //if(viewModel.isAuthorOfBlogPost()){
-            inflater.inflate(R.menu.edit_view_menu, menu)
-        //}
+//        //if(viewModel.isAuthorOfBlogPost()){
+//            inflater.inflate(R.menu.edit_view_menu, menu)
+//        //}
     }
 //
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //if(viewModel.isAuthorOfBlogPost()){
+        if(viewModel.isAuthorOfBlogPost()){
             when(item.itemId){
                 R.id.edit -> {
-                   // navUpdateBlogFragment()
+                    navUpdateBlogFragment()
                     return true
                 }
             }
-        //}
+        }
         return super.onOptionsItemSelected(item)
     }
-//
-//    private fun navUpdateBlogFragment(){
+
+    private fun navUpdateBlogFragment(){
 //        try{
 //            // prep for next fragment
 //            viewModel.setUpdatedBlogFields(
@@ -133,12 +140,12 @@ class ViewBlogFragment : BaseBlogFragment(){
 //                viewModel.getBlogPost().body,
 //                viewModel.getBlogPost().image.toUri()
 //            )
-//            findNavController().navigate(R.id.action_viewBlogFragment_to_updateBlogFragment)
+            findNavController().navigate(R.id.action_viewBlogFragment_to_updateBlogFragment)
 //        }catch (e: Exception){
 //            // send error report or something. These fields should never be null. Not possible
 //            Log.e(TAG, "Exception: ${e.message}")
 //        }
-//    }
+    }
 }
 
 

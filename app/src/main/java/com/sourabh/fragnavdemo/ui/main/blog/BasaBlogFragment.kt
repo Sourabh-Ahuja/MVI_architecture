@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.RequestManager
 import com.sourabh.fragnavdemo.R
 import com.sourabh.fragnavdemo.ui.DataStateChangeListener
+import com.sourabh.fragnavdemo.ui.main.blog.viewmodel.BlogViewModel
 import com.sourabh.fragnavdemo.viewModels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -20,9 +21,9 @@ abstract class BaseBlogFragment : DaggerFragment(){
 
     val TAG: String = "AppDebug"
 
-//    @Inject
-//    lateinit var requestManager: RequestManager
-//
+    @Inject
+    lateinit var requestManager: RequestManager
+
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
 

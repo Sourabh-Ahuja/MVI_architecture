@@ -29,5 +29,5 @@ data class AuthToken(
 
     @SerializedName("token")
     @Expose
-    @ColumnInfo(name = "token") var token: String? = null,
+    @ColumnInfo(name = "token") var token: String? = null
 )

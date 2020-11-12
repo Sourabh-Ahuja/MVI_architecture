@@ -81,7 +81,7 @@ class AccountRepository
                         }
             }
 
-            override fun updateLocalDB(cacheObject: AccountProperties?) {
+            override suspend fun updateLocalDB(cacheObject: AccountProperties?) {
                 cacheObject?.let {
                     accountPropertiesDao.updateAccountProperties(
                             cacheObject.pk,
@@ -125,7 +125,7 @@ class AccountRepository
                 return AbsentLiveData.create()
             }
 
-            override fun updateLocalDB(cacheObject: Any?) {
+            override suspend fun updateLocalDB(cacheObject: Any?) {
                 return accountPropertiesDao.updateAccountProperties(accountProperties.pk,
                 accountProperties.email, accountProperties.username)
             }
@@ -174,7 +174,7 @@ class AccountRepository
                 return AbsentLiveData.create()
             }
 
-            override fun updateLocalDB(cacheObject: Any?) {
+            override suspend fun updateLocalDB(cacheObject: Any?) {
                 // not applicable
             }
 

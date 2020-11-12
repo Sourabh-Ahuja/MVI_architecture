@@ -35,6 +35,14 @@
         android:label="fragment_view_blog"
         tools:layout="@layout/fragment_view_blog" >
 
+        <action android:id="@+id/action_viewBlogFragment_to_updateBlogFragment"
+            app:destination="@id/updateBlogFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+
         <action
             android:id="@+id/action_viewBlogFragment_to_blogFragment"
             app:destination="@id/blogFragment"

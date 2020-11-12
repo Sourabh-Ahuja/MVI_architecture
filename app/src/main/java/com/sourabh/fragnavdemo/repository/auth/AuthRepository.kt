@@ -110,7 +110,7 @@ constructor(
                 return AbsentLiveData.create()
             }
 
-            override fun updateLocalDB(cacheObject: Any?) {
+            override suspend fun updateLocalDB(cacheObject: Any?) {
 
             }
 
@@ -186,7 +186,7 @@ constructor(
                 return AbsentLiveData.create()
             }
 
-            override fun updateLocalDB(cacheObject: Any?) {
+            override suspend fun updateLocalDB(cacheObject: Any?) {
 
             }
 
@@ -260,7 +260,7 @@ constructor(
                     return AbsentLiveData.create()
                 }
 
-                override fun updateLocalDB(cacheObject: Any?) {
+                override suspend fun updateLocalDB(cacheObject: Any?) {
 
                 }
 

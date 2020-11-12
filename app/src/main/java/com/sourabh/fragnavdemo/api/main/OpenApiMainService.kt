@@ -2,6 +2,7 @@ package com.sourabh.fragnavdemo.api.main
 
 import androidx.lifecycle.LiveData
 import com.sourabh.fragnavdemo.api.GenericResponse
+import com.sourabh.fragnavdemo.api.main.respones.BlogListSearchResponse
 import com.sourabh.fragnavdemo.models.AccountProperties
 import com.sourabh.fragnavdemo.util.GenericApiResponse
 import retrofit2.http.*
@@ -28,6 +29,20 @@ interface OpenApiMainService {
             @Field("old_password") currentPassword: String,
             @Field("new_password") newPassword: String,
             @Field("confirm_new_password") confirmNewPassword: String
+    ): LiveData<GenericApiResponse<GenericResponse>>
+
+    @GET("blog/list")
+    fun searchListBlogPosts(
+            @Header("Authorization") authorization: String,
+            @Query("search") query: String,
+            @Query("ordering") ordering: String,
+            @Query("page") page: Int
+    ): LiveData<GenericApiResponse<BlogListSearchResponse>>
+
+    @GET("blog/{slug}/is_author")
+    fun isAuthorOfBlogPost(
+        @Header("Authorization") authorization: String,
+        @Path("slug") slug: String
     ): LiveData<GenericApiResponse<GenericResponse>>
 
 }

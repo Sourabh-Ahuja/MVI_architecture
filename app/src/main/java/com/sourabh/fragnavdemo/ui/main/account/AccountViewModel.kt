@@ -6,10 +6,12 @@ import com.sourabh.fragnavdemo.repository.main.AccountRepository
 import com.sourabh.fragnavdemo.session.SessionManager
 import com.sourabh.fragnavdemo.ui.BaseViewModel
 import com.sourabh.fragnavdemo.ui.DataState
+import com.sourabh.fragnavdemo.ui.Loading
 import com.sourabh.fragnavdemo.ui.auth.state.AuthStateEvent
 import com.sourabh.fragnavdemo.ui.main.account.state.AccountStateEvent
 import com.sourabh.fragnavdemo.ui.main.account.state.AccountStateEvent.*
 import com.sourabh.fragnavdemo.ui.main.account.state.AccountViewState
+import com.sourabh.fragnavdemo.ui.main.blog.state.BlogViewState
 import com.sourabh.fragnavdemo.util.AbsentLiveData
 import javax.inject.Inject
 
@@ -52,7 +54,16 @@ class AccountViewModel
                     }?: AbsentLiveData.create()
                 }
                 is None -> {
-                    return AbsentLiveData.create()
+                    return object : LiveData<DataState<AccountViewState>>() {
+                        override fun onActive() {
+                            super.onActive()
+                            value = DataState(
+                                    null,
+                                    Loading(false),
+                                    null
+                            )
+                        }
+                    }
                 }
             }
     }

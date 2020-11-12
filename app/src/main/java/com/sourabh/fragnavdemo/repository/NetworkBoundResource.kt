@@ -151,7 +151,7 @@ abstract class NetworkBoundResource<ResponseObject, CacheObject, ViewStateType>(
         ))
     }
 
-    @OptIn(InternalCoroutinesApi::class)
+    @UseExperimental(InternalCoroutinesApi::class)
     private fun initNewJob() : Job{
         Log.d(TAG,"initJob : called")
         job = Job()
@@ -188,7 +188,7 @@ abstract class NetworkBoundResource<ResponseObject, CacheObject, ViewStateType>(
 
     abstract fun loadFromCache() : LiveData<ViewStateType>
 
-    abstract  fun updateLocalDB(cacheObject :CacheObject?)
+    abstract suspend fun updateLocalDB(cacheObject :CacheObject?)
 
     abstract fun setJob(job : Job)
 

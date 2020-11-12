@@ -3,7 +3,7 @@ package com.sourabh.fragnavdemo.di.main
 import com.sourabh.fragnavdemo.di.ViewModelKey
 import androidx.lifecycle.ViewModel
 import com.sourabh.fragnavdemo.ui.main.account.AccountViewModel
-import com.sourabh.fragnavdemo.ui.main.blog.BlogViewModel
+import com.sourabh.fragnavdemo.ui.main.blog.viewmodel.BlogViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
